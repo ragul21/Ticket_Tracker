@@ -7,6 +7,7 @@ require("dotenv").config();
 /*importing mangoose object and express factory function  */
 const express = require("express");
 const mongoose = require("mongoose");
+const ticketRoute = require("./routes/ticketRoutes");
 
 /*calling the factory function will create the actual application object*/
 const app = express();
@@ -15,6 +16,10 @@ const app = express();
   express.json()*/
 
 app.use(express.json());
+
+/*placing the ticket related middleware with its own sub router which will walk its own stack*/
+
+app.use("/api/tickets", ticketRoute);
 
 /*connecting to mongo DB atlas using connect function on mongoose object 
 as it connection will take time as its asynchronous it returns promise
