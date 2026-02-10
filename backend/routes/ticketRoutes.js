@@ -36,5 +36,31 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.get("/", async (req, res) => {
+  try {
+    //destructure the values from query parameter so we can filter the data we want
+    const { status, priority } = req.query;
+
+    //we need to pass the filter object to get filtered result
+    const filter = {};
+
+    //assigning values to the filtered object
+    if (status) {
+      filter.status = status;
+    }
+
+    if (priority) {
+      filter.priority = priority;
+    }
+
+    //find takes time so await till the promise gets full filled
+    const tickets = await Ticket.find(filter);
+
+    res.status(200).json(tickets);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // let other files import this router reference
 module.exports = router;
