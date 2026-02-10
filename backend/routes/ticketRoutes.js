@@ -62,5 +62,52 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.patch("/:id", async (req, res) => {
+  try {
+    //status we are going to update , destructure it
+    const { status } = req.body;
+
+    //If status is not sent , return 400 bad request
+    if (!status) {
+      return res.status(400).json({ message: "Status is required" });
+    }
+
+    /*find the document by id and update the status from status object passed and enforce 
+      new: true means return updated version not old
+      runValidators to enforce validation as by default findbyIdandUpdate wont enforce validation*/
+    const ticket = await Ticket.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true, runValidators: true },
+    );
+
+    if (!ticket) {
+      return res.status(404).json({ message: "Ticket not found" });
+    }
+
+    res.status(200).json(ticket);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    /*find the document by id ,findByIdAndDelete returns deleted document if found 
+      If no document exist it returns false*/
+    const ticket = await Ticket.findByIdAndDelete(req.params.id);
+
+    /*If no document found return 404 not found*/
+    if (!ticket) {
+      return res.status(404).json({ message: "Ticket not found" });
+    }
+
+    // send 200 request worked
+    res.status(200).json({ message: "Ticket deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // let other files import this router reference
 module.exports = router;
