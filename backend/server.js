@@ -8,6 +8,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const ticketRoute = require("./routes/ticketRoutes");
+const cors = require("cors");
 
 /*calling the factory function will create the actual application object*/
 const app = express();
@@ -15,6 +16,7 @@ const app = express();
 /*use is adding the middleware to the application layer stack
   express.json()*/
 
+app.use(cors());
 app.use(express.json());
 
 /*placing the ticket related middleware with its own sub router which will walk its own stack*/
