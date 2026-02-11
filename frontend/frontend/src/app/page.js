@@ -1,8 +1,8 @@
-"use client";
+"use client"; // since this will run on client side we use use client
 
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"; // we need state and effect hooks
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL; // to not hardcode the backend URL
 
 export default function Home() {
   // we will get the entire ticket array and use setfunction to assign it to our ticket variable
@@ -30,6 +30,11 @@ export default function Home() {
 
   /*Once user selects the value from drop down the state re renders and will have the value
     if user clicks go this function will run by appending the priority and calls the fetch*/
+
+  // ============================================================================================
+  //                                  THIS WILL HANDLE THE GET TICKETS BY FILTER
+  // ============================================================================================
+
   const handleFilter = () => {
     let url = `${API_URL}/api/tickets`;
 
@@ -54,6 +59,9 @@ export default function Home() {
       .then((data) => setTicket(data));
   };
 
+  // ============================================================================================
+  //                     This function will handle the status change
+  // ============================================================================================
   const handleStatusChange = (id, newStatus) => {
     fetch(`${API_URL}/api/tickets/${id}`, {
       method: "PATCH",
@@ -67,6 +75,10 @@ export default function Home() {
         handleFilter(); // refresh list
       });
   };
+
+  // ============================================================================================
+  //                     This function will call the backend API to create ticket
+  // ============================================================================================
 
   const handleCreate = () => {
     fetch(`${API_URL}/api/tickets`, {
@@ -90,6 +102,9 @@ export default function Home() {
       });
   };
 
+  // ============================================================================================
+  //               THIS FUNCTION WILL HANDLE DELETE REQUEST FROM FRONTEND SIDE
+  // ============================================================================================
   const handleDelete = (id) => {
     fetch(`${API_URL}/api/tickets/${id}`, {
       method: "DELETE",
@@ -99,7 +114,9 @@ export default function Home() {
         handleFilter(); // refresh list
       });
   };
-
+  // ============================================================================================
+  //                                  ACTUAL UI WHICH WILL BE RENDERED
+  // ============================================================================================
   return (
     <div>
       <div className="flex gap-4">
@@ -137,6 +154,7 @@ export default function Home() {
           create ticket
         </button>
 
+        {/*conditional rendering of the create ticket modal*/}
         {showForm && (
           <div className="fixed inset-0 bg-black/20 flex items-center justify-center">
             <div className="bg-white p-6 w-96">
@@ -178,6 +196,7 @@ export default function Home() {
         )}
       </div>
 
+      {/*Table UI to render*/}
       <table className="w-full border border-gray-200">
         <thead>
           <tr>
