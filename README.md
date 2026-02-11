@@ -117,3 +117,11 @@ http://localhost:3000
 
 <img width="542" height="330" alt="image" src="https://github.com/user-attachments/assets/d3265ce5-7f26-49c4-9fd3-3645daaa54d0" />
 
+### Create Ticket Modal
+
+<img width="390" height="294" alt="image" src="https://github.com/user-attachments/assets/23ca8705-4c37-4b45-934f-4131437955c9" />
+
+### Delete Action Button
+
+<img width="156" height="212" alt="image" src="https://github.com/user-attachments/assets/41e6c277-347a-40e9-b655-a50ab0e3ea35" />
+
