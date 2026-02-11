@@ -1,10 +1,15 @@
 //Again importing express library to create a router stack for ticket endpoint
 const express = require("express");
 
-//we need the model reference to do operations on db
+//we need the model reference to do operations on db and enforce validation
 const Ticket = require("../models/Ticket.js");
 
+//we need a mini express application for similar endpoints
 const router = express.Router();
+
+// ============================================================================================
+//                                   CREATE TICKET END POINT
+// ============================================================================================
 
 router.post("/", async (req, res) => {
   try {
@@ -20,7 +25,7 @@ router.post("/", async (req, res) => {
     }
 
     // since this is a database operation and its asynchronous it will take some time so await
-    /*shorthand property of object , if the key and variable name are same means */
+    /*shorthand property of object , if the key and variable name are same means we use this shorthand */
     const ticket = await Ticket.create({
       title,
       description,
@@ -35,6 +40,10 @@ router.post("/", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+// ============================================================================================
+//                                  GET ALL TICKET OR BASED ON FILTER ENDPOINT
+// ============================================================================================
 
 router.get("/", async (req, res) => {
   try {
@@ -62,6 +71,10 @@ router.get("/", async (req, res) => {
   }
 });
 
+// ============================================================================================
+//                                   UPDATE TICKET DETAILS ENDPOINT
+// ============================================================================================
+
 router.patch("/:id", async (req, res) => {
   try {
     //status we are going to update , destructure it
@@ -81,6 +94,7 @@ router.patch("/:id", async (req, res) => {
       { new: true, runValidators: true },
     );
 
+    //If ticket not found means send it back
     if (!ticket) {
       return res.status(404).json({ message: "Ticket not found" });
     }
@@ -90,6 +104,10 @@ router.patch("/:id", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+// ============================================================================================
+//                                  DELETE TICKET ENDPOINT
+// ============================================================================================
 
 router.delete("/:id", async (req, res) => {
   try {

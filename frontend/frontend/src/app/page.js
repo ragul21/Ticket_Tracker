@@ -1,6 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function Home() {
   // we will get the entire ticket array and use setfunction to assign it to our ticket variable
   //for get all tickets
@@ -20,7 +23,7 @@ export default function Home() {
     we then convert it into array of js objects for our convenient to render in UI
     we assign it to state to save the array in ticket variable*/
   useEffect(() => {
-    fetch("http://localhost:5000/api/tickets")
+    fetch(`${API_URL}/api/tickets`)
       .then((res) => res.json())
       .then((data) => setTicket(data));
   }, []);
@@ -28,7 +31,7 @@ export default function Home() {
   /*Once user selects the value from drop down the state re renders and will have the value
     if user clicks go this function will run by appending the priority and calls the fetch*/
   const handleFilter = () => {
-    let url = "http://localhost:5000/api/tickets";
+    let url = `${API_URL}/api/tickets`;
 
     //we push the parts of query parameters into an array
     let queryParams = [];
@@ -52,7 +55,7 @@ export default function Home() {
   };
 
   const handleStatusChange = (id, newStatus) => {
-    fetch(`http://localhost:5000/api/tickets/${id}`, {
+    fetch(`${API_URL}/api/tickets/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -66,7 +69,7 @@ export default function Home() {
   };
 
   const handleCreate = () => {
-    fetch("http://localhost:5000/api/tickets", {
+    fetch(`${API_URL}/api/tickets`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -88,7 +91,7 @@ export default function Home() {
   };
 
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/api/tickets/${id}`, {
+    fetch(`${API_URL}/api/tickets/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -133,6 +136,7 @@ export default function Home() {
         >
           create ticket
         </button>
+
         {showForm && (
           <div className="fixed inset-0 bg-black/20 flex items-center justify-center">
             <div className="bg-white p-6 w-96">
@@ -208,6 +212,7 @@ export default function Home() {
               </td>
 
               <td>{ticket.createdAt}</td>
+
               <td>
                 <button
                   className="border px-4 py-2 cursor-pointer"
